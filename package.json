@@ -6,7 +6,10 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "lint": "biome lint ./src",
+    "format": "biome format --write ./src",
+    "check": "biome check ./src"
   },
   "prettier": {
     "printWidth": 100,
@@ -36,6 +39,7 @@
     "@angular/build": "^21.1.2",
     "@angular/cli": "^21.1.2",
     "@angular/compiler-cli": "^21.1.0",
+    "@biomejs/biome": "^1.9.4",
     "jsdom": "^27.1.0",
     "less": "^4.2.0",
     "typescript": "~5.9.2",

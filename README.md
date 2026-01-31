@@ -44,6 +44,16 @@ To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use th
 ng test
 ```
 
+## Code quality (Biome)
+
+Run Biome to lint, format, or check the codebase:
+
+```bash
+npm run lint
+npm run format
+npm run check
+```
+
 ## Running end-to-end tests
 
 For end-to-end (e2e) testing, run:
