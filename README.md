@@ -2,6 +2,33 @@
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.1.2.
 
+## Feature-Sliced Design (FSD)
+
+The project uses a Feature-Sliced Design layout. The Angular root `src/app` acts as the FSD **app** layer, and the other layers live at `src/*`:
+
+```
+src/
+  app/        # app layer (Angular root)
+  processes/
+  pages/
+  widgets/
+  features/
+  entities/
+  shared/
+```
+
+Path aliases are configured in `tsconfig.json`:
+
+```
+@app/*
+@processes/*
+@pages/*
+@widgets/*
+@features/*
+@entities/*
+@shared/*
+```
+
 ## Development server
 
 To start a local development server, run:
