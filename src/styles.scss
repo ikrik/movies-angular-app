@@ -19,13 +19,11 @@ $movies-dark-theme: mat.define-theme((
 
 @include mat.all-component-themes($movies-dark-theme);
 @include mat.color-variants-backwards-compatibility($movies-dark-theme);
+@include mat.typography-hierarchy($movies-dark-theme);
 
 body {
   margin: 0;
+  font-family: 'Roboto', 'Helvetica Neue', sans-serif;
   background: #0f1117;
   color: #e5e7ef;
-}
-
-.app-shell {
-  padding: 1.5rem;
 }
