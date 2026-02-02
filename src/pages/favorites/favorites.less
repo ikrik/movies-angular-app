@@ -1,0 +1,28 @@
+.favorites-page {
+  display: flex;
+  flex-direction: column;
+  width: min(1680px, 100%);
+  margin: 0 auto;
+  .favorites-header {
+    margin: 1rem 0 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+
+    .favorites-back {
+      z-index: 3;
+    }
+  }
+}
+
+.favorites-empty {
+  color: rgba(229, 231, 239, 0.7);
+  font-size: 1rem;
+}
+
+.favorites-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.5rem;
+  width: 100%;
+}

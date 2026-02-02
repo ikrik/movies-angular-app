@@ -1,0 +1,20 @@
+<section class="favorites-page">
+  <div class="favorites-header">
+    <back-button class="favorites-back" />
+    <h2>Your Favorites</h2>
+  </div>
+
+  @if (favorites().length > 0) {
+    <div class="favorites-grid">
+      @for (movie of favorites(); track movie.id) {
+        <movie-card
+          [movie]="movie"
+          (cardClick)="onCardClick(movie.id)"
+          (favoriteToggle)="onFavoriteToggle(movie.id)"
+        />
+      }
+    </div>
+  } @else {
+    <div class="favorites-empty">No favorites yet.</div>
+  }
+</section>
