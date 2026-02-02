@@ -1,0 +1,29 @@
+<form class="movies-search-form" autocomplete="off" novalidate>
+  <mat-form-field class="movies-search-field" appearance="fill">
+    <mat-label>Search movies</mat-label>
+    <mat-icon matPrefix>search</mat-icon>
+    <input
+      matInput
+      type="text"
+      placeholder="Try 'Inception' or 'The Bear'"
+      [formControl]="searchControl"
+      [matAutocomplete]="auto"
+      (keydown.enter)="onEnter()"
+    />
+    @if (searchControl.value.length > 0 && !loading) {
+      <mat-icon class="clear-icon" (click)="clear($event)" matSuffix>clear</mat-icon>
+    }
+    @if (loading) {
+      <div matSuffix class="autocomplete-loader">
+        <mat-progress-spinner mode="indeterminate" diameter="32"></mat-progress-spinner>
+      </div>
+    }
+    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onOptionSelected($event)">
+      @for (movie of results | async; track movie.id) {
+        <mat-option [value]="movie.title">
+          {{ movie.title }}
+        </mat-option>
+      }
+    </mat-autocomplete>
+  </mat-form-field>
+</form>
