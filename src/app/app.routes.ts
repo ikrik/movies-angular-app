@@ -1,25 +1,24 @@
-import type { Routes } from '@angular/router';
+import type { Routes } from "@angular/router";
 
-import { FavoritesPage } from '@pages/favorites/favorites';
-import { HomePage } from '@pages/home/home';
-import { MovieDetailsPage } from '@pages/movie-details/movie-details';
-import { NotMovieFoundPage } from '@pages/not-movie-found/not-movie-found';
+import { HomePage } from "@pages/home/home";
 
 export const routes: Routes = [
   {
-    path: '',
-    component: HomePage
+    path: "",
+    component: HomePage,
   },
   {
-    path: 'movie/:id',
-    component: MovieDetailsPage
+    path: "movie/:id",
+    loadComponent: () =>
+      import("@pages/movie-details/movie-details").then((m) => m.MovieDetailsPage),
   },
   {
-    path: 'favorites',
-    component: FavoritesPage
+    path: "favorites",
+    loadComponent: () => import("@pages/favorites/favorites").then((m) => m.FavoritesPage),
   },
   {
-    path: 'not-movie-found',
-    component: NotMovieFoundPage
-  }
+    path: "not-movie-found",
+    loadComponent: () =>
+      import("@pages/not-movie-found/not-movie-found").then((m) => m.NotMovieFoundPage),
+  },
 ];
