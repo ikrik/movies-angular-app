@@ -5,7 +5,7 @@ type SnapshotHandler<T> = () => T;
 
 @Injectable({ providedIn: "root" })
 export class PersistenceService {
-  private static readonly MAX_IDLE_MS = 1 * 60 * 1000;
+  private static readonly MAX_IDLE_MS = 60 * 60 * 1000;
   private readonly isBrowser = typeof window !== "undefined" && typeof localStorage !== "undefined";
   private readonly entries: Array<{ key: string; snapshot: SnapshotHandler<unknown> }> = [];
   private listenerRegistered = false;
