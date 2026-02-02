@@ -20,7 +20,7 @@
 
   .movie-rating {
     position: absolute;
-    top: 12px;
+    bottom: 12px;
     right: 12px;
     display: inline-flex;
     align-items: center;
@@ -40,6 +40,25 @@
 
   .movie-title {
     color: lighten(@color-accent-strong, 10%);
+  }
+
+  .movie-actions {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    gap: 6px;
+
+    .movie-action {
+      background: rgba(15, 17, 23, 0.75);
+      color: @color-text;
+
+      mat-icon {
+        font-size: 1.05rem;
+        height: 1.05rem;
+        width: 1.05rem;
+      }
+    }
   }
 }
 

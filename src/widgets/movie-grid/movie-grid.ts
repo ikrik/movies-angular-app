@@ -12,8 +12,11 @@ import { MovieCard } from "@widgets/movie-card/movie-card";
 })
 export class MovieGrid {
   @Input() movies: MovieEntity[] = [];
+  @Input() showActions = false;
   @Output() onCardDetailsClick = new EventEmitter<{ movieId: number; idx: number }>();
   @Output() onFavoriteToggle = new EventEmitter<number>();
+  @Output() onEditClick = new EventEmitter<number>();
+  @Output() onDeleteClick = new EventEmitter<number>();
 
   handleCardClick(movieId: number, idx: number): void {
     this.onCardDetailsClick.emit({ movieId, idx });
@@ -21,5 +24,13 @@ export class MovieGrid {
 
   handleFavoriteToggle(movieId: number): void {
     this.onFavoriteToggle.emit(movieId);
+  }
+
+  handleEditClick(movieId: number): void {
+    this.onEditClick.emit(movieId);
+  }
+
+  handleDeleteClick(movieId: number): void {
+    this.onDeleteClick.emit(movieId);
   }
 }

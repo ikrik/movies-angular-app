@@ -21,13 +21,15 @@ import { MovieGrid } from "@widgets/movie-grid/movie-grid";
 import { finalize } from "rxjs";
 import { MovieActionsService } from "@features/movies/movie-actions.service";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
+import { MatDialog, MatDialogModule } from "@angular/material/dialog";
+import { ConfirmDialog } from "@shared/ui/confirm-dialog/confirm-dialog";
 
 const COVER_IMG_URL =
   "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=1920&h=1080&fit=crop";
 
 @Component({
   selector: "movies-home-page",
-  imports: [CommonModule, MovieGrid, MatProgressSpinnerModule],
+  imports: [CommonModule, MovieGrid, MatProgressSpinnerModule, MatDialogModule, ConfirmDialog],
   templateUrl: "./home.html",
   styleUrl: "./home.less",
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -40,6 +42,7 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
   protected readonly coverImg = signal(COVER_IMG_URL);
   protected readonly isLoading = signal(false);
   private readonly movieActions = inject(MovieActionsService);
+  private readonly dialog = inject(MatDialog);
   private readonly items$ = toObservable(this.moviesStore.items);
   private observer?: IntersectionObserver;
   private gridObserver?: IntersectionObserver;
@@ -63,6 +66,27 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
   handleFavoriteToggle(movieId: number): void {
     this.preventJump = true;
     this.movieActions.toggleFavorite(movieId);
+  }
+
+  handleEdit(movieId: number): void {
+    this.snackbar.open(`Edit movie ${movieId} (not implemented yet)`, "success", 3000);
+  }
+
+  handleDelete(movieId: number): void {
+    const dialogRef = this.dialog.open(ConfirmDialog, {
+      data: {
+        title: "Delete movie?",
+        message: "Are you sure you want to delete this movie from the list?",
+        confirmText: "Delete",
+        cancelText: "Cancel",
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((confirmed) => {
+      if (confirmed) {
+        this.moviesStore.removeMovie(movieId);
+      }
+    });
   }
 
   ngOnInit(): void {
@@ -118,9 +142,7 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
     );
 
     this.observeGridItems();
-    this.items$
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(() => this.observeGridItems());
+    this.items$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => this.observeGridItems());
   }
 
   ngOnDestroy(): void {

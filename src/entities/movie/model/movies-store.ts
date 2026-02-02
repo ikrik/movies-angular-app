@@ -76,6 +76,21 @@ export const MoviesStore = signalStore(
       }
       return updated;
     },
+    removeMovie(id: number): void {
+      if (!store.items().some((item) => item.id === id)) {
+        return;
+      }
+      const items = store.items().filter((item) => item.id !== id);
+      const totalResults = store.totalResults();
+      const nextTotalResults = totalResults > 0 ? totalResults - 1 : 0;
+      const nextLastVisibleIndex = Math.min(store.lastVisibleIndex(), items.length - 1);
+      patchState(store, {
+        items,
+        totalResults: nextTotalResults,
+        lastVisibleIndex: Math.max(nextLastVisibleIndex, -1),
+        latestStoreChange: Date.now(),
+      });
+    },
     clear(): void {
       patchState(store, {
         items: [],

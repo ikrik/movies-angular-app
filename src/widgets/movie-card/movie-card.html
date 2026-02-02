@@ -17,6 +17,27 @@
       <mat-icon>{{ movie.favourite ? 'favorite' : 'favorite_border' }}</mat-icon>
     </button>
 
+    @if (showActions) {
+      <div class="movie-actions">
+        <button
+          mat-icon-button
+          class="movie-action"
+          aria-label="Edit movie"
+          (click)="handleEditClick($event)"
+        >
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button
+          mat-icon-button
+          class="movie-action"
+          aria-label="Delete movie"
+          (click)="handleDeleteClick($event)"
+        >
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+    }
+
     <div class="movie-rating">
       <mat-icon>star</mat-icon>
       <span>{{ movie.displayRating }}</span>

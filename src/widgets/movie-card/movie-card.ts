@@ -15,8 +15,11 @@ import { ImageWithLoader } from "@shared/ui/image/image-with-loader";
 })
 export class MovieCard {
   @Input({ required: true }) movie!: MovieEntity;
+  @Input() showActions = false;
   @Output() onCardClick = new EventEmitter<number>();
   @Output() onFavoriteToggle = new EventEmitter<number>();
+  @Output() onEditClick = new EventEmitter<number>();
+  @Output() onDeleteClick = new EventEmitter<number>();
 
   handleCardClick(): void {
     this.onCardClick.emit(this.movie.id);
@@ -25,6 +28,16 @@ export class MovieCard {
   handleFavoriteClick(event: MouseEvent): void {
     event.stopPropagation();
     this.onFavoriteToggle.emit(this.movie.id);
+  }
+
+  handleEditClick(event: MouseEvent): void {
+    event.stopPropagation();
+    this.onEditClick.emit(this.movie.id);
+  }
+
+  handleDeleteClick(event: MouseEvent): void {
+    event.stopPropagation();
+    this.onDeleteClick.emit(this.movie.id);
   }
 
   getPosterUrl(): string | null {

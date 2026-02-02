@@ -2,8 +2,11 @@
   <div #movieItem [attr.data-movie-index]="i">
     <movie-card
       [movie]="movie"
+      [showActions]="showActions"
       (onCardClick)="handleCardClick(movie.id, i)"
       (onFavoriteToggle)="handleFavoriteToggle(movie.id)"
+      (onEditClick)="handleEditClick(movie.id)"
+      (onDeleteClick)="handleDeleteClick(movie.id)"
     />
   </div>
 }
