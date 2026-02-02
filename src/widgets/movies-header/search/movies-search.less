@@ -1,3 +1,5 @@
+@import (reference) '../../../shared/ui/styles/variables.less';
+
 .movies-search-form {
   width: 100%;
 }
@@ -12,7 +14,7 @@
 
 :host ::ng-deep .movies-search-field {
   .mdc-text-field {
-    background: darken(#c2185b, 15%);
+    background: darken(@color-accent, 15%);
     border-radius: 999px;
   }
   .mdc-text-field--filled::before,

@@ -1,3 +1,5 @@
+@import (reference) '../styles/variables.less';
+
 .mdc-snackbar__label,
 .mdc-snackbar__surface {
   padding: 0 !important;
@@ -46,11 +48,11 @@
 }
 
 .box-error {
-  background-color: #f23a2f;
+  background-color: @color-snackbar-error;
   color: white;
 }
 
 .box-success {
-  background-color: #43a446;
+  background-color: @color-snackbar-success;
   color: white;
 }

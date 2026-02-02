@@ -1,6 +1,8 @@
+@import (reference) '../../shared/ui/styles/variables.less';
+
 .movie-card {
   cursor: pointer;
-  background: #7e0f3a;
+  background: @color-accent;
   border-radius: 12px;
   overflow: hidden;
   transition:
@@ -27,7 +29,7 @@
     background: rgba(15, 17, 23, 0.75);
     border-radius: 8px;
     font-weight: 600;
-    color: #f5c243;
+    color: @color-warning;
 
     mat-icon {
       font-size: 0.95rem;
@@ -37,7 +39,7 @@
   }
 
   .movie-title {
-    color: lighten(#ff5d9e, 10%);
+    color: lighten(@color-accent-strong, 10%);
   }
 }
 
@@ -74,7 +76,7 @@
     top: 10px;
     left: 10px;
     background: rgba(15, 17, 23, 0.75);
-    color: #ff6b8a;
+    color: @color-accent-strong;
   }
 
   .movie-favorite mat-icon {
@@ -91,7 +93,7 @@
     margin: 0;
     font-size: 1rem;
     font-weight: 600;
-    color: #e8eaf2;
+    color: @color-text;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -103,7 +105,7 @@
     display: flex;
     align-items: center;
     gap: 0.45rem;
-    color: rgba(229, 231, 239, 0.7);
+    color: @color-text-muted;
     font-size: 0.85rem;
   }
 }

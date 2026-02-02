@@ -1,3 +1,5 @@
+@import (reference) '../../shared/ui/styles/variables.less';
+
 .not-movie-found {
   min-height: 60vh;
   display: flex;
@@ -8,7 +10,7 @@
   .not-movie-found-card {
     max-width: 420px;
     text-align: center;
-    background: rgba(20, 24, 34, 0.9);
+    background: rgba(20, 24, 34, 0.8);
     padding: 2rem;
     border-radius: 16px;
     box-shadow: 0 12px 30px rgba(8, 10, 18, 0.45);
@@ -19,11 +21,11 @@
     }
     p {
       margin: 0 0 1.5rem;
-      color: rgba(229, 231, 239, 0.75);
+      color: @color-text-muted;
     }
     .not-movie-found-btn {
-      background-color: #c2185b;
-      color: #ffffff;
+      background-color: @color-accent;
+      color: @color-text;
       font-weight: bold;
       padding: 0.75rem 1.5rem;
       font-size: 1rem;
@@ -34,7 +36,7 @@
       }
 
       &:hover {
-        background-color: darken(#c2185b, 10%);
+        background-color: darken(@color-accent, 10%);
       }
     }
   }
