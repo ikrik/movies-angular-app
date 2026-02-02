@@ -21,7 +21,15 @@
     <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onOptionSelected($event)">
       @for (movie of results | async; track movie.id) {
         <mat-option [value]="movie.title">
-          {{ movie.title }}
+          <div class="movies-search-option">
+            <div class="movies-search-poster">
+              <image-with-loader [src]="getPosterUrl(movie)" [alt]="movie.title" />
+            </div>
+            <div class="movies-search-meta">
+              <div class="movies-search-title">{{ movie.title }}</div>
+              <div class="movies-search-year">{{ getReleaseYear(movie) }}</div>
+            </div>
+          </div>
         </mat-option>
       }
     </mat-autocomplete>
