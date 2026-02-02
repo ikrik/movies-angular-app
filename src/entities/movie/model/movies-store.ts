@@ -1,4 +1,4 @@
-import { signalStore, withMethods, withState, patchState } from "@ngrx/signals";
+import { signalStore, withHooks, withMethods, withState, patchState } from "@ngrx/signals";
 import type { MovieEntity } from "./movie.mapper";
 
 export interface MoviesState {
@@ -64,4 +64,35 @@ export const MoviesStore = signalStore(
       });
     },
   })),
+  withHooks({
+    onInit(store) {
+      if (typeof window === "undefined" || typeof localStorage === "undefined") {
+        return;
+      }
+
+      try {
+        const raw = localStorage.getItem("movies_store");
+        if (raw) {
+          const parsed = JSON.parse(raw) as MoviesState;
+          patchState(store, parsed);
+          localStorage.removeItem("movies_store");
+        }
+      } catch {
+        // ignore corrupted cache
+      }
+
+      const handler = () => {
+        const snapshot: MoviesState = {
+          items: store.items(),
+          page: store.page(),
+          totalPages: store.totalPages(),
+          totalResults: store.totalResults(),
+          lastVisibleIndex: store.lastVisibleIndex(),
+        };
+        localStorage.setItem("movies_store", JSON.stringify(snapshot));
+      };
+
+      window.addEventListener("beforeunload", handler);
+    },
+  }),
 );
