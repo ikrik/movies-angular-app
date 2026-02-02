@@ -1,7 +1,15 @@
 # Moviescope
 
 Angular 21 app using **Feature‑Sliced Design (FSD)** and TMDB for movie data.
+
 <img width="2674" height="2332" alt="moviescope" src="https://github.com/user-attachments/assets/a8fa5cd1-6309-4cab-a4d6-5ccfb1dfc036" />
+<br />
+<br />
+<img width="5022" height="2334" alt="moviescope-2" src="https://github.com/user-attachments/assets/d517d6e6-a89c-40b4-a191-f4e4ac57285f" />
+<br />
+<br />
+<img width="3870" height="2334" alt="moviescope-3" src="https://github.com/user-attachments/assets/60101d81-d67a-4612-8cf3-0122872f7f13" />
+
 
 ## Run the app
 
