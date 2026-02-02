@@ -1,0 +1,22 @@
+.app-shell {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 64px);
+  overflow: hidden;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(15, 17, 23, 0.92) 0%,
+      rgba(15, 17, 23, 0.8) 55%,
+      rgba(15, 17, 23, 0) 100%
+    ),
+    linear-gradient(180deg, rgba(15, 17, 23, 0) 10%, rgba(15, 17, 23, 0.92) 75%),
+    url('https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=1920&h=1080&fit=crop')
+      center / cover no-repeat fixed;
+
+  .content {
+    overflow-y: auto;
+    flex: 1;
+  }
+}
