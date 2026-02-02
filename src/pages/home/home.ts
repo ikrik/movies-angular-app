@@ -8,11 +8,11 @@ import {
   type OnDestroy,
   ElementRef,
   ViewChild,
+  DestroyRef,
   inject,
   signal,
-  type EffectRef,
-  effect,
 } from "@angular/core";
+import { takeUntilDestroyed, toObservable } from "@angular/core/rxjs-interop";
 
 import { MoviesStore } from "@entities/movie/model/movies-store";
 import { mapTmdbMovieToEntity } from "@entities/movie/model/movie.mapper";
@@ -36,12 +36,13 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
   private readonly moviesStore = inject(MoviesStore);
   private readonly tmdbService = inject(TmdbService);
   private readonly snackbar = inject(SnackBarService);
+  private readonly destroyRef = inject(DestroyRef);
   protected readonly coverImg = signal(COVER_IMG_URL);
   protected readonly isLoading = signal(false);
   private readonly movieActions = inject(MovieActionsService);
+  private readonly items$ = toObservable(this.moviesStore.items);
   private observer?: IntersectionObserver;
   private gridObserver?: IntersectionObserver;
-  private itemsEffect?: EffectRef;
   private preventJump = false;
 
   @ViewChild("infiniteTrigger", { static: false })
@@ -117,16 +118,14 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
     );
 
     this.observeGridItems();
-    this.itemsEffect = effect(() => {
-      this.moviesStore.items();
-      this.observeGridItems();
-    });
+    this.items$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => this.observeGridItems());
   }
 
   ngOnDestroy(): void {
     this.observer?.disconnect();
     this.gridObserver?.disconnect();
-    this.itemsEffect?.destroy();
   }
 
   private loadNextPage(): void {
