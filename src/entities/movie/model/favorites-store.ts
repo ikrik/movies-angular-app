@@ -75,6 +75,13 @@ export const FavoritesStore = signalStore(
         latestStoreChange: Date.now(),
       });
     },
+    clear(): void {
+      patchState(store, {
+        ids: [],
+        entities: {},
+        latestStoreChange: null,
+      });
+    },
   })),
   withHooks({
     onInit(store) {
