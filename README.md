@@ -1,79 +1,31 @@
 # MoviesAngularApp
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.1.2.
+Angular 21 app using **Feature‑Sliced Design (FSD)** and TMDB for movie data.
 
-## Feature-Sliced Design (FSD)
-
-The project uses a Feature-Sliced Design layout. The Angular root `src/app` acts as the FSD **app** layer, and the other layers live at `src/*`:
-
-```
-src/
-  app/        # app layer (Angular root)
-  processes/
-  pages/
-  widgets/
-  features/
-  entities/
-  shared/
-```
-
-Path aliases are configured in `tsconfig.json`:
-
-```
-@app/*
-@processes/*
-@pages/*
-@widgets/*
-@features/*
-@entities/*
-@shared/*
-```
-
-## Development server
-
-To start a local development server, run:
+## 🚀 Run the app
 
 ```bash
+pnpm install
 pnpm start
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Open `http://localhost:4200/`. The app reloads on file changes.
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-pnpm ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-pnpm ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-pnpm build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+## ✅ Tests
 
 ```bash
 pnpm test
 ```
 
-## Code quality (Biome)
+## 🏗️ Production build
 
-Run Biome to lint, format, or check the codebase:
+```bash
+pnpm build
+```
+
+Artifacts are generated in `dist/`.
+
+## 🧹 Code quality (Biome)
 
 ```bash
 pnpm lint
@@ -81,16 +33,55 @@ pnpm format
 pnpm check
 ```
 
-## Running end-to-end tests
+## 🧭 Feature‑Sliced Design (FSD)
 
-For end-to-end (e2e) testing, run:
+This project follows FSD to keep boundaries clear and scale features without coupling.
 
-```bash
-ng e2e
+```
+src/
+  app/        # app layer (root Angular wiring)
+  pages/      # route-level pages
+  widgets/    # composable UI blocks used by pages
+  features/   # user‑facing actions and logic
+  entities/   # domain models + stores
+  shared/     # reusable UI + utilities
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+Benefits:
+- ✅ Clear ownership of UI and logic
+- ✅ Predictable imports via path aliases
+- ✅ Easier refactors as the app grows
 
-## Additional Resources
+Path aliases (see `tsconfig.json`):
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+```
+@app/*
+@pages/*
+@widgets/*
+@features/*
+@entities/*
+@shared/*
+```
+
+## 🔌 Data source (TMDB)
+
+Movie data comes from **TMDB** (The Movie Database) via `TmdbService`. The base URL and API token live in `src/environments/*` and are injected through `Config`.
+
+## 🧩 Interceptors
+
+One HTTP interceptors are used:
+- **Auth interceptor**: adds `Authorization: Bearer <apiToken>`.
+
+
+## ✨ App functionality (high level)
+
+- **ImageWithLoader**: shows a loader/placeholder while images load and handles failed images - in slow connection loads blur low quality image and when the actual image is loaded it makes a smooth transition to the high quality one.
+- **PersistenceService**: stores app state to localStorage on unload and restores on next load (with stale‑data guard).
+- **MoviesStore / FavoritesStore**: signal-based state for lists and favorites.
+- **Search**: debounced autocomplete powered by TMDB search.
+- **Dialogs**: edit and confirm dialogs use Angular Material.
+
+## ℹ️ Notes
+
+- Angular Material is used for UI components.
+- Dark theme is applied globally.
