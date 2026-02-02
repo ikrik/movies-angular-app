@@ -1,0 +1,13 @@
+<div class="snack-container box-{{ getIcon.type }}">
+  <div class="snack-container-message">
+    <div class="snackbar-type-icon">
+      <mat-icon class="icon">{{ getIcon.icon }}</mat-icon>
+    </div>
+    <div class="actual-message">
+      <span>{{ data.message }}</span>
+    </div>
+  </div>
+  <div class="snack-container-icon">
+    <mat-icon class="close-icon" (click)="closeSnackbar()">clear</mat-icon>
+  </div>
+</div>

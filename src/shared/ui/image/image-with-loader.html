@@ -1,0 +1,17 @@
+<div class="image-wrap" [class.image-wrap-loaded]="loaded">
+  <img
+    class="image-wrap-img"
+    [class.image-wrap-img-failed]="failed"
+    [style.object-fit]="fit"
+    [src]="resolvedSrc"
+    [alt]="alt"
+    (load)="onLoad()"
+    (error)="onError()"
+  />
+
+  @if (!loaded) {
+    <div class="overlay">
+      <mat-progress-spinner mode="indeterminate" diameter="36"></mat-progress-spinner>
+    </div>
+  }
+</div>
