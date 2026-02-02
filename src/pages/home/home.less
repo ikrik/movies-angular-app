@@ -1,3 +1,5 @@
+@import (reference) '../../shared/ui/styles/variables.less';
+
 :host {
   display: flex;
   flex-direction: column;
@@ -12,4 +14,38 @@
 
 .sentinel {
   height: 1px;
+}
+
+.home-loading,
+.home-loading-more {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: @color-text-muted;
+}
+
+.home-loading {
+  justify-content: center;
+  padding: 48px 0;
+}
+
+.home-loading-more {
+  justify-content: center;
+  padding: 16px 0 8px;
+}
+
+.home-empty {
+  text-align: center;
+  padding: 56px 0;
+  color: @color-text-muted;
+
+  h4 {
+    margin: 0 0 8px;
+    font-size: 1.25rem;
+    color: @color-text;
+  }
+
+  p {
+    margin: 0;
+  }
 }

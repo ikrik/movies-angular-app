@@ -19,18 +19,24 @@
       </div>
     }
     <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onOptionSelected($event)">
-      @for (movie of results | async; track movie.id) {
-        <mat-option [value]="movie.title">
-          <div class="movies-search-option">
-            <div class="movies-search-poster">
-              <image-with-loader [src]="getPosterUrl(movie)" [alt]="movie.title" />
-            </div>
-            <div class="movies-search-meta">
-              <div class="movies-search-title">{{ movie.title }}</div>
-              <div class="movies-search-year">{{ getReleaseYear(movie) }}</div>
-            </div>
-          </div>
-        </mat-option>
+      @if (results | async; as movieResults) {
+        @if (movieResults.length === 0 && searchControl.value.trim().length >= 3 && !loading) {
+          <mat-option class="movies-search-empty" disabled>No results found</mat-option>
+        } @else {
+          @for (movie of movieResults; track movie.id) {
+            <mat-option [value]="movie.title">
+              <div class="movies-search-option">
+                <div class="movies-search-poster">
+                  <image-with-loader [src]="getPosterUrl(movie)" [alt]="movie.title" />
+                </div>
+                <div class="movies-search-meta">
+                  <div class="movies-search-title">{{ movie.title }}</div>
+                  <div class="movies-search-year">{{ getReleaseYear(movie) }}</div>
+                </div>
+              </div>
+            </mat-option>
+          }
+        }
       }
     </mat-autocomplete>
   </mat-form-field>

@@ -20,13 +20,14 @@ import { TmdbService } from "@shared/api/tmdb.service";
 import { MovieGrid } from "@widgets/movie-grid/movie-grid";
 import { finalize } from "rxjs";
 import { MovieActionsService } from "@features/movies/movie-actions.service";
+import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 
 const COVER_IMG_URL =
   "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=1920&h=1080&fit=crop";
 
 @Component({
   selector: "movies-home-page",
-  imports: [CommonModule, MovieGrid],
+  imports: [CommonModule, MovieGrid, MatProgressSpinnerModule],
   templateUrl: "./home.html",
   styleUrl: "./home.less",
   changeDetection: ChangeDetectionStrategy.OnPush,

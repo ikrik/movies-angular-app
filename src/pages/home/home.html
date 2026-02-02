@@ -1,7 +1,27 @@
 <h3>Popular Movies</h3>
-<movie-grid
-  [movies]="movies()"
-  (onCardDetailsClick)="handleCardClick($event)"
-  (onFavoriteToggle)="handleFavoriteToggle($event)"
-/>
+@if (movies().length === 0) {
+  @if (isLoading()) {
+    <div class="home-loading">
+      <mat-progress-spinner mode="indeterminate" diameter="48"></mat-progress-spinner>
+      <span>Loading movies…</span>
+    </div>
+  } @else {
+    <div class="home-empty">
+      <h4>No movies yet</h4>
+      <p>Try again in a moment.</p>
+    </div>
+  }
+} @else {
+  <movie-grid
+    [movies]="movies()"
+    (onCardDetailsClick)="handleCardClick($event)"
+    (onFavoriteToggle)="handleFavoriteToggle($event)"
+  />
+  @if (isLoading()) {
+    <div class="home-loading-more">
+      <mat-progress-spinner mode="indeterminate" diameter="32"></mat-progress-spinner>
+      <span>Loading more…</span>
+    </div>
+  }
+}
 <div #infiniteTrigger class="sentinel"></div>

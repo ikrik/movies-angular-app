@@ -34,6 +34,34 @@
   }
 }
 
+.movie-details-state {
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px;
+  color: @color-text-muted;
+  text-align: center;
+
+  .movie-details-loading {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .movie-details-empty {
+    h4 {
+      margin: 0 0 8px;
+      font-size: 1.2rem;
+      color: @color-text;
+    }
+
+    p {
+      margin: 0;
+    }
+  }
+}
+
 .movie-details-content {
   display: grid;
   grid-template-columns: minmax(220px, 320px) 1fr;
