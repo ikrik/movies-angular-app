@@ -1,9 +1,9 @@
 import { provideHttpClient, withInterceptors } from "@angular/common/http";
 import { type ApplicationConfig, provideBrowserGlobalErrorListeners } from "@angular/core";
-import { provideRouter } from "@angular/router";
 import { provideAnimations } from "@angular/platform-browser/animations";
-import { routes } from "./app.routes";
+import { provideRouter } from "@angular/router";
 import { authInterceptor } from "@shared/api/auth.interceptor";
+import { routes } from "./app.routes";
 
 export const appConfig: ApplicationConfig = {
   providers: [

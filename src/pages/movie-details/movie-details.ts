@@ -1,15 +1,15 @@
 import { CommonModule } from "@angular/common";
-import { Component, ChangeDetectionStrategy, type OnInit, inject, signal } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
+import { ChangeDetectionStrategy, Component, type OnInit, inject, signal } from "@angular/core";
 import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
-import { EMPTY, filter } from "rxjs";
-import { catchError, finalize, switchMap, tap } from "rxjs/operators";
-import { TmdbService, type TmdbMovieDetails } from "@shared/api/tmdb.service";
+import { ActivatedRoute, Router } from "@angular/router";
+import { type TmdbMovieDetails, TmdbService } from "@shared/api/tmdb.service";
+import { tmdbPosterUrl } from "@shared/lib/tmdb-image";
 import { BackButton } from "@shared/ui/back-button/back-button";
 import { ImageWithLoader } from "@shared/ui/image/image-with-loader";
-import { tmdbPosterUrl } from "@shared/lib/tmdb-image";
+import { EMPTY, filter } from "rxjs";
+import { catchError, finalize, switchMap, tap } from "rxjs/operators";
 
 @Component({
   selector: "movies-details-page",

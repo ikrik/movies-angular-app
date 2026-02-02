@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component, ChangeDetectionStrategy, Output, EventEmitter, Input } from "@angular/core";
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
 import type { MovieEntity } from "@entities/movie/model/movie.mapper";
 import { MovieCard } from "@widgets/movie-card/movie-card";
 

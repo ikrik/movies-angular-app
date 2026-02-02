@@ -1,5 +1,5 @@
 import { TestBed } from "@angular/core/testing";
-import { describe, it, expect, beforeEach } from "vitest";
+import { beforeEach, describe, expect, it } from "vitest";
 import { ImageWithLoader } from "./image-with-loader";
 
 describe("ImageWithLoader", () => {

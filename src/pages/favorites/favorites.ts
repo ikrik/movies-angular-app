@@ -1,5 +1,5 @@
 import { CommonModule, ViewportScroller } from "@angular/common";
-import { Component, ChangeDetectionStrategy, inject, type AfterViewInit } from "@angular/core";
+import { type AfterViewInit, ChangeDetectionStrategy, Component, inject } from "@angular/core";
 
 import { FavoritesStore } from "@entities/movie/model/favorites-store";
 import { MovieActionsService } from "@features/movies/movie-actions.service";

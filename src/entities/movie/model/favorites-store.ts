@@ -1,15 +1,15 @@
 import { computed, inject } from "@angular/core";
 import {
+  patchState,
   signalStore,
   withComputed,
   withHooks,
   withMethods,
   withState,
-  patchState,
 } from "@ngrx/signals";
 
-import type { MovieEntity } from "./movie.mapper";
 import { PersistenceService } from "@shared/persistence/persistence.service";
+import type { MovieEntity } from "./movie.mapper";
 
 export interface FavoritesState {
   ids: number[];

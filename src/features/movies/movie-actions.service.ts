@@ -1,10 +1,10 @@
 import { Injectable, inject } from "@angular/core";
 import { Router } from "@angular/router";
-import { catchError, of } from "rxjs";
 import { FavoritesStore } from "@entities/movie/model/favorites-store";
 import { MoviesStore } from "@entities/movie/model/movies-store";
 import { TmdbService } from "@shared/api/tmdb.service";
 import { SnackBarService } from "@shared/ui/snackbar/snackbar.service";
+import { catchError, of } from "rxjs";
 
 @Injectable({ providedIn: "root" })
 export class MovieActionsService {

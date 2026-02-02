@@ -1,7 +1,7 @@
 import { TestBed } from "@angular/core/testing";
-import { describe, it, expect, vi, beforeEach } from "vitest";
 import { MAT_SNACK_BAR_DATA, type MatSnackBar } from "@angular/material/snack-bar";
-import { SnackbarComponent, type SnackBarData } from "./snackbar";
+import { beforeEach, describe, expect, it, vi } from "vitest";
+import { type SnackBarData, SnackbarComponent } from "./snackbar";
 
 describe("SnackbarComponent", () => {
   const snackBarMock: MatSnackBar = {

@@ -1,6 +1,5 @@
-import { MovieActionsService } from "@features/movies/movie-actions.service";
 import { CommonModule } from "@angular/common";
-import { Component, ChangeDetectionStrategy, inject } from "@angular/core";
+import { ChangeDetectionStrategy, Component, inject } from "@angular/core";
 import { FormControl, ReactiveFormsModule } from "@angular/forms";
 import {
   MatAutocompleteModule,
@@ -9,6 +8,12 @@ import {
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatIconModule } from "@angular/material/icon";
 import { MatInputModule } from "@angular/material/input";
+import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
+import { MovieActionsService } from "@features/movies/movie-actions.service";
+import { type TmdbMovieResult, TmdbService } from "@shared/api/tmdb.service";
+import { tmdbPosterUrl } from "@shared/lib/tmdb-image";
+import { ImageWithLoader } from "@shared/ui/image/image-with-loader";
+import { type Observable, of } from "rxjs";
 import {
   debounceTime,
   distinctUntilChanged,
@@ -18,11 +23,6 @@ import {
   switchMap,
   tap,
 } from "rxjs/operators";
-import { of, type Observable } from "rxjs";
-import { TmdbService, type TmdbMovieResult } from "@shared/api/tmdb.service";
-import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
-import { ImageWithLoader } from "@shared/ui/image/image-with-loader";
-import { tmdbPosterUrl } from "@shared/lib/tmdb-image";
 
 @Component({
   selector: "movies-search",

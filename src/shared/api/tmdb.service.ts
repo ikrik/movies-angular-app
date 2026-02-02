@@ -1,7 +1,7 @@
-import { inject, Injectable } from "@angular/core";
 import { HttpClient, HttpParams } from "@angular/common/http";
-import type { Observable } from "rxjs";
+import { Injectable, inject } from "@angular/core";
 import { Config } from "@shared/config/config.service";
+import type { Observable } from "rxjs";
 
 export interface TmdbMovieResult {
   adult: boolean;

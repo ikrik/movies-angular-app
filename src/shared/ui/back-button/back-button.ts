@@ -1,5 +1,5 @@
 import { CommonModule, Location } from "@angular/common";
-import { Component, ChangeDetectionStrategy, inject } from "@angular/core";
+import { ChangeDetectionStrategy, Component, inject } from "@angular/core";
 import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
 

@@ -1,10 +1,10 @@
 import { TestBed } from "@angular/core/testing";
 import { NoopAnimationsModule } from "@angular/platform-browser/animations";
-import { describe, it, expect, vi, beforeEach } from "vitest";
-import { of } from "rxjs";
-import { MoviesSearch } from "./movies-search";
-import { TmdbService, type TmdbSearchMovie } from "@shared/api/tmdb.service";
 import { MovieActionsService } from "@features/movies/movie-actions.service";
+import { type TmdbSearchMovie, TmdbService } from "@shared/api/tmdb.service";
+import { of } from "rxjs";
+import { beforeEach, describe, expect, it, vi } from "vitest";
+import { MoviesSearch } from "./movies-search";
 
 describe("MoviesSearch", () => {
   const tmdbServiceMock = {

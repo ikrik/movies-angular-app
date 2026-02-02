@@ -1,4 +1,4 @@
-import { Component, inject, ViewEncapsulation } from "@angular/core";
+import { Component, ViewEncapsulation, inject } from "@angular/core";
 import { MatIconModule } from "@angular/material/icon";
 import { MAT_SNACK_BAR_DATA, type MatSnackBar } from "@angular/material/snack-bar";
 

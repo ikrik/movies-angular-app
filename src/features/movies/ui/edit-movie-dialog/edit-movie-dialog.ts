@@ -2,7 +2,7 @@ import { CommonModule } from "@angular/common";
 import { Component, inject } from "@angular/core";
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { MatButtonModule } from "@angular/material/button";
-import { MatDialogModule, MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from "@angular/material/dialog";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material/input";
 
@@ -42,10 +42,7 @@ export class EditMovieDialog {
     }),
     year: new FormControl(this.data.year ?? "", {
       nonNullable: true,
-      validators: [
-        Validators.required,
-        Validators.pattern(/^(18[8-9]\d|19\d\d|20[0-2]\d|2030)$/),
-      ],
+      validators: [Validators.required, Validators.pattern(/^(18[8-9]\d|19\d\d|20[0-2]\d|2030)$/)],
     }),
     overview: new FormControl(this.data.overview ?? "", {
       nonNullable: true,

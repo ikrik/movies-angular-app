@@ -1,6 +1,6 @@
-import { TestBed } from "@angular/core/testing";
 import { Location } from "@angular/common";
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import { TestBed } from "@angular/core/testing";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { BackButton } from "./back-button";
 
 describe("BackButton", () => {

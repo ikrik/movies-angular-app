@@ -1,4 +1,4 @@
-import { inject, Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { MatSnackBar, type MatSnackBarRef } from "@angular/material/snack-bar";
 import { SnackbarComponent } from "./snackbar";
 import type { SnackBarType } from "./snackbar";

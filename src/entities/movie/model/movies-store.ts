@@ -1,7 +1,7 @@
 import { inject } from "@angular/core";
-import { signalStore, withHooks, withMethods, withState, patchState } from "@ngrx/signals";
-import type { MovieEntity } from "./movie.mapper";
+import { patchState, signalStore, withHooks, withMethods, withState } from "@ngrx/signals";
 import { PersistenceService } from "@shared/persistence/persistence.service";
+import type { MovieEntity } from "./movie.mapper";
 
 export interface MoviesState {
   items: MovieEntity[];
@@ -76,10 +76,7 @@ export const MoviesStore = signalStore(
       }
       return updated;
     },
-    updateMovie(
-      id: number,
-      updates: { title: string; year: string; overview: string },
-    ): void {
+    updateMovie(id: number, updates: { title: string; year: string; overview: string }): void {
       if (!store.items().some((item) => item.id === id)) {
         return;
       }

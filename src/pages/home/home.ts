@@ -1,29 +1,29 @@
-import { SnackBarService } from "@shared/ui/snackbar/snackbar.service";
 import { CommonModule } from "@angular/common";
 import {
-  Component,
-  ChangeDetectionStrategy,
-  type OnInit,
   type AfterViewInit,
-  type OnDestroy,
-  ElementRef,
-  ViewChild,
+  ChangeDetectionStrategy,
+  Component,
   DestroyRef,
+  ElementRef,
+  type OnDestroy,
+  type OnInit,
+  ViewChild,
   inject,
   signal,
 } from "@angular/core";
 import { takeUntilDestroyed, toObservable } from "@angular/core/rxjs-interop";
+import { SnackBarService } from "@shared/ui/snackbar/snackbar.service";
 
-import { MoviesStore } from "@entities/movie/model/movies-store";
+import { MatDialog, MatDialogModule } from "@angular/material/dialog";
+import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { mapTmdbMovieToEntity } from "@entities/movie/model/movie.mapper";
+import { MoviesStore } from "@entities/movie/model/movies-store";
+import { MovieActionsService } from "@features/movies/movie-actions.service";
+import { EditMovieDialog } from "@features/movies/ui/edit-movie-dialog/edit-movie-dialog";
 import { TmdbService } from "@shared/api/tmdb.service";
+import { ConfirmDialog } from "@shared/ui/confirm-dialog/confirm-dialog";
 import { MovieGrid } from "@widgets/movie-grid/movie-grid";
 import { finalize } from "rxjs";
-import { MovieActionsService } from "@features/movies/movie-actions.service";
-import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
-import { MatDialog, MatDialogModule } from "@angular/material/dialog";
-import { ConfirmDialog } from "@shared/ui/confirm-dialog/confirm-dialog";
-import { EditMovieDialog } from "@features/movies/ui/edit-movie-dialog/edit-movie-dialog";
 
 const COVER_IMG_URL =
   "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=1920&h=1080&fit=crop";

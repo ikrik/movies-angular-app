@@ -1,9 +1,9 @@
 import { TestBed } from "@angular/core/testing";
 import { By } from "@angular/platform-browser";
-import { describe, it, expect, vi, beforeEach } from "vitest";
-import { MovieGrid } from "./movie-grid";
-import { MovieCard } from "@widgets/movie-card/movie-card";
 import type { MovieEntity } from "@entities/movie/model/movie.mapper";
+import { MovieCard } from "@widgets/movie-card/movie-card";
+import { beforeEach, describe, expect, it, vi } from "vitest";
+import { MovieGrid } from "./movie-grid";
 
 const movies: MovieEntity[] = [
   {

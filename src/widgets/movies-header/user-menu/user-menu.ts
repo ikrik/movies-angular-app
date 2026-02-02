@@ -1,10 +1,10 @@
-import { FavoritesStore } from "@entities/movie/model/favorites-store";
-import { Router } from "@angular/router";
 import { CommonModule } from "@angular/common";
-import { Component, ChangeDetectionStrategy, inject } from "@angular/core";
+import { ChangeDetectionStrategy, Component, inject } from "@angular/core";
 import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
 import { MatMenuModule } from "@angular/material/menu";
+import { Router } from "@angular/router";
+import { FavoritesStore } from "@entities/movie/model/favorites-store";
 import { MoviesStore } from "@entities/movie/model/movies-store";
 
 @Component({

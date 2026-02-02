@@ -1,7 +1,7 @@
 import { TestBed } from "@angular/core/testing";
-import { describe, it, expect, vi, beforeEach } from "vitest";
-import { MovieCard } from "./movie-card";
 import type { MovieEntity } from "@entities/movie/model/movie.mapper";
+import { beforeEach, describe, expect, it, vi } from "vitest";
+import { MovieCard } from "./movie-card";
 
 const sampleMovie: MovieEntity = {
   id: 1,
