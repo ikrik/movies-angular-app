@@ -1,0 +1,41 @@
+.not-movie-found {
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1.5rem;
+
+  .not-movie-found-card {
+    max-width: 420px;
+    text-align: center;
+    background: rgba(20, 24, 34, 0.9);
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 12px 30px rgba(8, 10, 18, 0.45);
+
+    h1 {
+      margin: 0 0 0.75rem;
+      font-size: 2rem;
+    }
+    p {
+      margin: 0 0 1.5rem;
+      color: rgba(229, 231, 239, 0.75);
+    }
+    .not-movie-found-btn {
+      background-color: #c2185b;
+      color: #ffffff;
+      font-weight: bold;
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+
+      mat-icon {
+        vertical-align: middle;
+        margin-right: 0.5rem;
+      }
+
+      &:hover {
+        background-color: darken(#c2185b, 10%);
+      }
+    }
+  }
+}
