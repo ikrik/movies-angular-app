@@ -6,6 +6,7 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
+    "start:prod": "serve -s dist/movies-angular-app/browser",
     "test": "ng test",
     "lint": "biome lint ./src",
     "format": "biome format --write ./src",
