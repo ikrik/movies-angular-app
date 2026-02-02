@@ -22,6 +22,7 @@ import { of, type Observable } from "rxjs";
 import { TmdbService, type TmdbMovieResult } from "@shared/api/tmdb.service";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { ImageWithLoader } from "@shared/ui/image/image-with-loader";
+import { tmdbPosterUrl } from "@shared/lib/tmdb-image";
 
 @Component({
   selector: "movies-search",
@@ -45,7 +46,6 @@ export class MoviesSearch {
   readonly searchControl = new FormControl("", { nonNullable: true });
   loading = false;
   private latestResults: TmdbMovieResult[] = [];
-  private readonly posterBaseUrl = "https://image.tmdb.org/t/p/w92";
 
   readonly results: Observable<TmdbMovieResult[]> = this.searchControl.valueChanges.pipe(
     startWith(""),
@@ -103,7 +103,7 @@ export class MoviesSearch {
   }
 
   getPosterUrl(movie: TmdbMovieResult): string | null {
-    return movie.poster_path ? `${this.posterBaseUrl}${movie.poster_path}` : null;
+    return tmdbPosterUrl(movie.poster_path, "w92");
   }
 
   getReleaseYear(movie: TmdbMovieResult): string {

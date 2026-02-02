@@ -3,10 +3,12 @@ import { Component, ChangeDetectionStrategy, EventEmitter, Input, Output } from 
 import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
 import type { MovieEntity } from "@entities/movie/model/movie.mapper";
+import { tmdbPosterUrl } from "@shared/lib/tmdb-image";
+import { ImageWithLoader } from "@shared/ui/image/image-with-loader";
 
 @Component({
   selector: "movie-card",
-  imports: [CommonModule, MatButtonModule, MatIconModule],
+  imports: [CommonModule, MatButtonModule, MatIconModule, ImageWithLoader],
   templateUrl: "./movie-card.html",
   styleUrl: "./movie-card.less",
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -16,8 +18,6 @@ export class MovieCard {
   @Output() onCardClick = new EventEmitter<number>();
   @Output() onFavoriteToggle = new EventEmitter<number>();
 
-  readonly IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w500";
-
   handleCardClick(): void {
     this.onCardClick.emit(this.movie.id);
   }
@@ -25,5 +25,13 @@ export class MovieCard {
   handleFavoriteClick(event: MouseEvent): void {
     event.stopPropagation();
     this.onFavoriteToggle.emit(this.movie.id);
+  }
+
+  getPosterUrl(): string | null {
+    return tmdbPosterUrl(this.movie.posterPath, "w500");
+  }
+
+  getPosterPlaceholder(): string | null {
+    return tmdbPosterUrl(this.movie.posterPath, "w92");
   }
 }

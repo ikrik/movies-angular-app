@@ -9,8 +9,7 @@ import { catchError, finalize, switchMap, tap } from "rxjs/operators";
 import { TmdbService, type TmdbMovieDetails } from "@shared/api/tmdb.service";
 import { BackButton } from "@shared/ui/back-button/back-button";
 import { ImageWithLoader } from "@shared/ui/image/image-with-loader";
-
-const IMAGE_BASE_URL = "https://image.tmdb.org/t/p";
+import { tmdbPosterUrl } from "@shared/lib/tmdb-image";
 
 @Component({
   selector: "movies-details-page",
@@ -33,9 +32,6 @@ export class MovieDetailsPage implements OnInit {
 
   readonly movie = signal<TmdbMovieDetails | null>(null);
   readonly isLoading = signal(false);
-
-  readonly hero = `${IMAGE_BASE_URL}/original`;
-  readonly poster = `${IMAGE_BASE_URL}/w780`;
 
   ngOnInit(): void {
     this.route.paramMap
@@ -60,5 +56,17 @@ export class MovieDetailsPage implements OnInit {
       .subscribe((movie) => {
         this.movie.set(movie);
       });
+  }
+
+  getHeroUrl(path: string | null | undefined): string | null {
+    return tmdbPosterUrl(path, "original");
+  }
+
+  getPosterUrl(path: string | null | undefined): string | null {
+    return tmdbPosterUrl(path, "w780");
+  }
+
+  getPosterPlaceholder(path: string | null | undefined): string | null {
+    return tmdbPosterUrl(path, "w92");
   }
 }

@@ -3,10 +3,12 @@
     <back-button class="movie-details-back" />
     <div class="movie-details-hero">
       <image-with-loader
-        [src]="movieItem.backdrop_path ? hero + movieItem.backdrop_path : null"
+        [src]="getHeroUrl(movieItem.backdrop_path)"
+        [placeholderSrc]="getPosterPlaceholder(movieItem.backdrop_path)"
         [alt]="movieItem.title"
         [placeholder]="'https://placehold.co/1600x900?text=No+Backdrop'"
         [fit]="'cover'"
+        [aspectRatio]="'16 / 9'"
       />
       <div class="overlay"></div>
     </div>
@@ -14,7 +16,8 @@
     <div class="movie-details-content">
       <div class="movie-details-poster">
         <image-with-loader
-          [src]="movieItem.poster_path ? poster + movieItem.poster_path : null"
+          [src]="getPosterUrl(movieItem.poster_path)"
+          [placeholderSrc]="getPosterPlaceholder(movieItem.poster_path)"
           [alt]="movieItem.title"
           [placeholder]="'https://placehold.co/400x600?text=No+Poster'"
           [fit]="'cover'"

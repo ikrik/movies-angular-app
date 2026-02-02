@@ -1,7 +1,8 @@
 <article class="movie-card" (click)="handleCardClick()">
   <div class="movie-poster">
-    <img
-      [src]="IMAGE_BASE_URL + movie.posterPath || 'https://placehold.co/400x600?text=No+Poster'"
+    <image-with-loader
+      [src]="getPosterUrl()"
+      [placeholderSrc]="getPosterPlaceholder()"
       [alt]="movie.title"
     />
     <div class="overlay"></div>
