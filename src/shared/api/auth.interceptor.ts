@@ -1,6 +1,5 @@
 import type { HttpInterceptorFn } from "@angular/common/http";
 import { inject } from "@angular/core";
-
 import { Config } from "@shared/config/config.service";
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {

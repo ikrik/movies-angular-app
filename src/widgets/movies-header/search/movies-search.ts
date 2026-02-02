@@ -19,7 +19,6 @@ import {
   tap,
 } from "rxjs/operators";
 import { of, type Observable } from "rxjs";
-
 import { TmdbService, type TmdbMovieResult } from "@shared/api/tmdb.service";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 

@@ -1,7 +1,6 @@
 import { inject, Injectable } from "@angular/core";
 import { HttpClient, HttpParams } from "@angular/common/http";
 import type { Observable } from "rxjs";
-
 import { Config } from "@shared/config/config.service";
 
 export interface TmdbMovieResult {

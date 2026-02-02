@@ -2,7 +2,6 @@ import { CommonModule } from "@angular/common";
 import { Component, ChangeDetectionStrategy, EventEmitter, Input, Output } from "@angular/core";
 import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
-
 import type { MovieEntity } from "@entities/movie/model/movie.mapper";
 
 @Component({
