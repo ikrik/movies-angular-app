@@ -1,0 +1,9 @@
+@for (movie of movies(); track movie; let i = $index) {
+  <div #movieItem [attr.data-movie-index]="i">
+    <movie-card
+      [movie]="movie"
+      (cardClick)="onCardClick(movie.id, i)"
+      (favoriteToggle)="onFavoriteToggle(movie.id)"
+    />
+  </div>
+}

@@ -1,0 +1,33 @@
+<article class="movie-card" (click)="onCardClick()">
+  <div class="movie-poster">
+    <img
+      [src]="IMAGE_BASE_URL + movie.posterPath || 'https://placehold.co/400x600?text=No+Poster'"
+      [alt]="movie.title"
+    />
+    <div class="overlay"></div>
+
+    <button
+      class="movie-favorite"
+      mat-icon-button
+      (click)="onFavoriteClick($event)"
+      [attr.aria-pressed]="movie.favourite"
+      aria-label="Toggle favorite"
+    >
+      <mat-icon>{{ movie.favourite ? "favorite" : "favorite_border" }}</mat-icon>
+    </button>
+
+    <div class="movie-rating">
+      <mat-icon>star</mat-icon>
+      <span>{{ movie.displayRating }}</span>
+    </div>
+  </div>
+
+  <div class="movie-content">
+    <h3 class="movie-title">{{ movie.title }}</h3>
+    <div class="movie-meta">
+      <span>{{ movie.year }}</span>
+      <span>•</span>
+      <span>{{ movie.genreIds[0] }}</span>
+    </div>
+  </div>
+</article>
