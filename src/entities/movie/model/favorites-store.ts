@@ -9,13 +9,18 @@ import {
 } from "@ngrx/signals";
 
 import type { MovieEntity } from "./movie.mapper";
+import { PersistenceService } from "@shared/persistence/persistence.service";
 
 export interface FavoritesState {
   ids: number[];
   entities: Record<number, MovieEntity>;
+  latestStoreChange: number | null;
 }
 
-const normalizeFavorites = (items: MovieEntity[]): FavoritesState => {
+const normalizeFavorites = (
+  items: MovieEntity[],
+  latestStoreChange: number | null = null,
+): FavoritesState => {
   const ids: number[] = [];
   const entities: Record<number, MovieEntity> = {};
 
@@ -27,7 +32,7 @@ const normalizeFavorites = (items: MovieEntity[]): FavoritesState => {
     entities[item.id] = item;
   }
 
-  return { ids, entities };
+  return { ids, entities, latestStoreChange };
 };
 
 export const FavoritesStore = signalStore(
@@ -35,6 +40,7 @@ export const FavoritesStore = signalStore(
   withState<FavoritesState>({
     ids: [],
     entities: {},
+    latestStoreChange: null,
   }),
   withComputed((store) => ({
     items: computed(() =>
@@ -46,7 +52,7 @@ export const FavoritesStore = signalStore(
   })),
   withMethods((store) => ({
     setFavorites(items: MovieEntity[]): void {
-      patchState(store, normalizeFavorites(items));
+      patchState(store, normalizeFavorites(items, Date.now()));
     },
     addFavorite(item: MovieEntity): void {
       if (store.entities()[item.id]) {
@@ -55,6 +61,7 @@ export const FavoritesStore = signalStore(
       patchState(store, {
         ids: [...store.ids(), item.id],
         entities: { ...store.entities(), [item.id]: item },
+        latestStoreChange: Date.now(),
       });
     },
     removeFavorite(id: number): void {
@@ -65,39 +72,54 @@ export const FavoritesStore = signalStore(
       patchState(store, {
         ids: store.ids().filter((existing) => existing !== id),
         entities: rest,
+        latestStoreChange: Date.now(),
       });
     },
   })),
   withHooks({
     onInit(store) {
-      if (typeof window === "undefined" || typeof localStorage === "undefined") {
-        return;
-      }
-
-      try {
-        const raw = localStorage.getItem("favorites_store");
-        if (raw) {
-          const parsed = JSON.parse(raw) as FavoritesState | { items: MovieEntity[] };
-          if (Array.isArray((parsed as { items?: MovieEntity[] }).items)) {
-            patchState(store, normalizeFavorites((parsed as { items: MovieEntity[] }).items));
-          } else {
-            patchState(store, parsed as FavoritesState);
-          }
-          localStorage.removeItem("favorites_store");
-        }
-      } catch {
-        // ignore corrupted cache
-      }
-
-      const handler = () => {
-        const snapshot: FavoritesState = {
+      const persistence = inject(PersistenceService);
+      persistence.register<FavoritesState>(
+        "favorites_store",
+        () => ({
           ids: store.ids(),
           entities: store.entities(),
-        };
-        localStorage.setItem("favorites_store", JSON.stringify(snapshot));
-      };
+          latestStoreChange: store.latestStoreChange(),
+        }),
+        (value) => {
+          if (!value || typeof value !== "object") {
+            return;
+          }
 
-      window.addEventListener("beforeunload", handler);
+          const candidate = value as FavoritesState & { latestStoreChange?: unknown };
+
+          // The localStorage value has exactly the FavoritesState shape
+          if (
+            Array.isArray(candidate.ids) &&
+            candidate.entities &&
+            typeof candidate.entities === "object" &&
+            (candidate.latestStoreChange === null ||
+              typeof candidate.latestStoreChange === "number")
+          ) {
+            patchState(store, candidate);
+            return;
+          }
+
+          // The localStorage value has the FavoritesState shape but missing the latestStorageChange
+          if (
+            Array.isArray(candidate.ids) &&
+            candidate.entities &&
+            typeof candidate.entities === "object" &&
+            candidate.latestStoreChange === undefined
+          ) {
+            patchState(store, {
+              ids: candidate.ids,
+              entities: candidate.entities,
+              latestStoreChange: Date.now(),
+            });
+          }
+        },
+      );
     },
   }),
 );

@@ -1,5 +1,7 @@
+import { inject } from "@angular/core";
 import { signalStore, withHooks, withMethods, withState, patchState } from "@ngrx/signals";
 import type { MovieEntity } from "./movie.mapper";
+import { PersistenceService } from "@shared/persistence/persistence.service";
 
 export interface MoviesState {
   items: MovieEntity[];
@@ -7,7 +9,23 @@ export interface MoviesState {
   totalPages: number;
   totalResults: number;
   lastVisibleIndex: number;
+  latestStoreChange: number | null;
 }
+
+const isMoviesState = (value: unknown): value is MoviesState => {
+  if (!value || typeof value !== "object") {
+    return false;
+  }
+  const candidate = value as MoviesState;
+  return (
+    Array.isArray(candidate.items) &&
+    typeof candidate.page === "number" &&
+    typeof candidate.totalPages === "number" &&
+    typeof candidate.totalResults === "number" &&
+    typeof candidate.lastVisibleIndex === "number" &&
+    (candidate.latestStoreChange === null || typeof candidate.latestStoreChange === "number")
+  );
+};
 
 export const MoviesStore = signalStore(
   { providedIn: "root" },
@@ -17,13 +35,14 @@ export const MoviesStore = signalStore(
     totalPages: 0,
     totalResults: 0,
     lastVisibleIndex: -1,
+    latestStoreChange: null,
   }),
   withMethods((store) => ({
     setPage(page: number): void {
-      patchState(store, { page });
+      patchState(store, { page, latestStoreChange: Date.now() });
     },
     setResults(items: MovieEntity[], totalPages: number, totalResults: number): void {
-      patchState(store, { items, totalPages, totalResults });
+      patchState(store, { items, totalPages, totalResults, latestStoreChange: Date.now() });
     },
     appendResults(
       items: MovieEntity[],
@@ -36,10 +55,11 @@ export const MoviesStore = signalStore(
         page,
         totalPages,
         totalResults,
+        latestStoreChange: Date.now(),
       });
     },
     setLastVisibleIndex(index: number): void {
-      patchState(store, { lastVisibleIndex: index });
+      patchState(store, { lastVisibleIndex: index, latestStoreChange: Date.now() });
     },
     toggleFavorite(id: number): MovieEntity | null {
       let updated: MovieEntity | null = null;
@@ -51,7 +71,9 @@ export const MoviesStore = signalStore(
         return updated;
       });
 
-      patchState(store, { items });
+      if (updated) {
+        patchState(store, { items, latestStoreChange: Date.now() });
+      }
       return updated;
     },
     clear(): void {
@@ -61,38 +83,30 @@ export const MoviesStore = signalStore(
         totalPages: 0,
         totalResults: 0,
         lastVisibleIndex: -1,
+        latestStoreChange: Date.now(),
       });
     },
   })),
   withHooks({
     onInit(store) {
-      if (typeof window === "undefined" || typeof localStorage === "undefined") {
-        return;
-      }
-
-      try {
-        const raw = localStorage.getItem("movies_store");
-        if (raw) {
-          const parsed = JSON.parse(raw) as MoviesState;
-          patchState(store, parsed);
-          localStorage.removeItem("movies_store");
-        }
-      } catch {
-        // ignore corrupted cache
-      }
-
-      const handler = () => {
-        const snapshot: MoviesState = {
+      const persistence = inject(PersistenceService);
+      persistence.register(
+        "movies_store",
+        () => ({
           items: store.items(),
           page: store.page(),
           totalPages: store.totalPages(),
           totalResults: store.totalResults(),
           lastVisibleIndex: store.lastVisibleIndex(),
-        };
-        localStorage.setItem("movies_store", JSON.stringify(snapshot));
-      };
-
-      window.addEventListener("beforeunload", handler);
+          latestStoreChange: store.latestStoreChange(),
+        }),
+        (value) => {
+          if (isMoviesState(value)) {
+            patchState(store, value);
+            return;
+          }
+        },
+      );
     },
   }),
 );
