@@ -1,0 +1,44 @@
+<section class="movie-details" *ngIf="movie() as movie">
+  <back-button class="movie-details-back" />
+  <div class="movie-details-hero">
+    <image-with-loader
+      [src]="movie.backdrop_path ? hero + movie.backdrop_path : null"
+      [alt]="movie.title"
+      [placeholder]="'https://placehold.co/1600x900?text=No+Backdrop'"
+      [fit]="'cover'"
+    />
+    <div class="overlay"></div>
+  </div>
+
+  <div class="movie-details-content">
+    <div class="movie-details-poster">
+      <image-with-loader
+        [src]="movie.poster_path ? poster + movie.poster_path : null"
+        [alt]="movie.title"
+        [placeholder]="'https://placehold.co/400x600?text=No+Poster'"
+        [fit]="'cover'"
+      />
+    </div>
+
+    <div class="movie-details-info">
+      <h1>{{ movie.title }}</h1>
+      <div class="movie-details-meta">
+        <span>{{ movie.release_date | slice: 0 : 4 }}</span>
+        <span>•</span>
+        <span>{{ movie.runtime || '—' }} min</span>
+        <span>•</span>
+        <span>{{ movie.vote_average }}</span>
+      </div>
+      <div class="movie-details-genres">
+        @for (genre of movie.genres; track genre.id) {
+          <span>{{ genre.name }}</span>
+        }
+      </div>
+      <p class="movie-details-overview">{{ movie.overview }}</p>
+      <button mat-raised-button class="movie-details-watch-now-btn">
+        <mat-icon>play_arrow</mat-icon>
+        Watch Now
+      </button>
+    </div>
+  </div>
+</section>
