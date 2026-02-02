@@ -76,6 +76,27 @@ export const MoviesStore = signalStore(
       }
       return updated;
     },
+    updateMovie(
+      id: number,
+      updates: { title: string; year: string; overview: string },
+    ): void {
+      if (!store.items().some((item) => item.id === id)) {
+        return;
+      }
+
+      const items = store.items().map((item) =>
+        item.id === id
+          ? {
+              ...item,
+              title: updates.title,
+              year: updates.year,
+              overview: updates.overview,
+            }
+          : item,
+      );
+
+      patchState(store, { items, latestStoreChange: Date.now() });
+    },
     removeMovie(id: number): void {
       if (!store.items().some((item) => item.id === id)) {
         return;

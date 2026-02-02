@@ -23,13 +23,21 @@ import { MovieActionsService } from "@features/movies/movie-actions.service";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { MatDialog, MatDialogModule } from "@angular/material/dialog";
 import { ConfirmDialog } from "@shared/ui/confirm-dialog/confirm-dialog";
+import { EditMovieDialog } from "@features/movies/ui/edit-movie-dialog/edit-movie-dialog";
 
 const COVER_IMG_URL =
   "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=1920&h=1080&fit=crop";
 
 @Component({
   selector: "movies-home-page",
-  imports: [CommonModule, MovieGrid, MatProgressSpinnerModule, MatDialogModule, ConfirmDialog],
+  imports: [
+    CommonModule,
+    MovieGrid,
+    MatProgressSpinnerModule,
+    MatDialogModule,
+    ConfirmDialog,
+    EditMovieDialog,
+  ],
   templateUrl: "./home.html",
   styleUrl: "./home.less",
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -69,7 +77,26 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
   }
 
   handleEdit(movieId: number): void {
-    this.snackbar.open(`Edit movie ${movieId} (not implemented yet)`, "success", 3000);
+    const movie = this.moviesStore.items().find((item) => item.id === movieId);
+    if (!movie) {
+      this.snackbar.open("Movie not found.", "error", 3000);
+      return;
+    }
+
+    const dialogRef = this.dialog.open(EditMovieDialog, {
+      data: {
+        title: movie.title,
+        year: movie.year,
+        overview: movie.overview,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (!result) {
+        return;
+      }
+      this.moviesStore.updateMovie(movieId, result);
+    });
   }
 
   handleDelete(movieId: number): void {
