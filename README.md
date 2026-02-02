@@ -69,16 +69,20 @@ Movie data comes from **TMDB** (The Movie Database) via `TmdbService`. The base 
 
 ## Interceptors
 
-One HTTP interceptors are used:
+One HTTP interceptors is used:
 - **Auth interceptor**: adds `Authorization: Bearer <apiToken>`.
 
 ## App functionality (high level)
 
 - **ImageWithLoader**: shows a loader/placeholder while images load and handles failed images - in slow connection loads blur low quality image and when the actual image is loaded it makes a smooth transition to the high quality one.
-- **PersistenceService**: stores app state to localStorage on unload and restores on next load (with stale‑data guard).
+- **PersistenceService**: The application persists its state to localStorage on page unload and restores it on the next load, with a built-in stale-data guard. 
+
+    On reload, the app retrieves the previously saved state from `localStorage` and rehydrates the stores with it. Each store maintains a `latestStoreChange` timestamp (in milliseconds) that records the time of its most recent state update.
+
+    During startup, the persistence service compares the latest `latestStoreChange` value across all stores. If the most recent update is older than **60 minutes**, the persisted state is considered stale and is ignored. In this case, no state is restored and the application initializes with a clean, default state.
 - **MoviesStore / FavoritesStore**: signal-based state for lists and favorites.
 - **Search**: debounced autocomplete powered by TMDB search.
-- **Dialogs**: edit and confirm dialogs use Angular Material.
+- **Dialogs**: edit, delete and confirm dialogs use Angular Material.
 
 ## Notes
 
