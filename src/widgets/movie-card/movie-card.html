@@ -1,4 +1,4 @@
-<article class="movie-card" (click)="onCardClick()">
+<article class="movie-card" (click)="handleCardClick()">
   <div class="movie-poster">
     <img
       [src]="IMAGE_BASE_URL + movie.posterPath || 'https://placehold.co/400x600?text=No+Poster'"
@@ -9,11 +9,11 @@
     <button
       class="movie-favorite"
       mat-icon-button
-      (click)="onFavoriteClick($event)"
+      (click)="handleFavoriteClick($event)"
       [attr.aria-pressed]="movie.favourite"
       aria-label="Toggle favorite"
     >
-      <mat-icon>{{ movie.favourite ? "favorite" : "favorite_border" }}</mat-icon>
+      <mat-icon>{{ movie.favourite ? 'favorite' : 'favorite_border' }}</mat-icon>
     </button>
 
     <div class="movie-rating">

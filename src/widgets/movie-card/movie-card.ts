@@ -13,17 +13,17 @@ import type { MovieEntity } from "@entities/movie/model/movie.mapper";
 })
 export class MovieCard {
   @Input({ required: true }) movie!: MovieEntity;
-  @Output() cardClick = new EventEmitter<MovieEntity>();
-  @Output() favoriteToggle = new EventEmitter<MovieEntity>();
+  @Output() onCardClick = new EventEmitter<number>();
+  @Output() onFavoriteToggle = new EventEmitter<number>();
 
   readonly IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w500";
 
-  onCardClick(): void {
-    this.cardClick.emit(this.movie);
+  handleCardClick(): void {
+    this.onCardClick.emit(this.movie.id);
   }
 
-  onFavoriteClick(event: MouseEvent): void {
+  handleFavoriteClick(event: MouseEvent): void {
     event.stopPropagation();
-    this.favoriteToggle.emit(this.movie);
+    this.onFavoriteToggle.emit(this.movie.id);
   }
 }
