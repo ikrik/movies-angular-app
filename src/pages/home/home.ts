@@ -60,6 +60,7 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
   handleCardClick({ movieId, idx }: { movieId: number; idx: number }): void {
     if (typeof idx === "number") {
       this.moviesStore.setLastVisibleIndex(idx);
+      this.saveCurrentScrollPosition();
     }
     this.movieActions.goToDetails(movieId);
   }
@@ -101,8 +102,8 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
         cancelText: "Cancel",
       },
     });
-
-    dialogRef.afterClosed().subscribe((confirmed) => {
+    this.saveCurrentScrollPosition();
+    dialogRef.afterClosed().subscribe((confirmed: boolean) => {
       if (confirmed) {
         this.moviesStore.removeMovie(movieId);
       }
@@ -147,7 +148,7 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
     this.gridObserver = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
-          if (!entry.isIntersecting) {
+          if (entry.intersectionRatio < 1) {
             continue;
           }
 
@@ -155,10 +156,11 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
           const index = indexAttr ? Number(indexAttr) : Number.NaN;
           if (!Number.isNaN(index)) {
             this.moviesStore.setLastVisibleIndex(index);
+            this.saveCurrentScrollPosition();
           }
         }
       },
-      { root: null, threshold: 0.2 },
+      { root: null, threshold: 1 },
     );
 
     this.observeGridItems();
@@ -227,6 +229,7 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
 
   private restoreToLastVisibleItem(items: NodeListOf<HTMLElement>): void {
     const index = this.moviesStore.lastVisibleIndex();
+    const savedScrollY = this.moviesStore.scrollY();
     if (index < 0 || items.length === 0) {
       return;
     }
@@ -242,7 +245,17 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
     }
 
     setTimeout(() => {
+      if (savedScrollY > 0) {
+        const content = document.querySelector<HTMLElement>(".content");
+        content?.scrollTo({ top: savedScrollY, behavior: "auto" });
+        return;
+      }
       item.scrollIntoView({ block: "center", behavior: "auto" });
     }, 0);
+  }
+
+  private saveCurrentScrollPosition() {
+    const content = document.querySelector<HTMLElement>(".content");
+    this.moviesStore.setScrollY(content?.scrollTop || 0);
   }
 }

@@ -9,6 +9,7 @@ export interface MoviesState {
   totalPages: number;
   totalResults: number;
   lastVisibleIndex: number;
+  scrollY: number;
   latestStoreChange: number | null;
 }
 
@@ -35,6 +36,7 @@ export const MoviesStore = signalStore(
     totalPages: 0,
     totalResults: 0,
     lastVisibleIndex: -1,
+    scrollY: 0,
     latestStoreChange: null,
   }),
   withMethods((store) => ({
@@ -60,6 +62,9 @@ export const MoviesStore = signalStore(
     },
     setLastVisibleIndex(index: number): void {
       patchState(store, { lastVisibleIndex: index, latestStoreChange: Date.now() });
+    },
+    setScrollY(offset: number): void {
+      patchState(store, { scrollY: offset, latestStoreChange: Date.now() });
     },
     toggleFavorite(id: number): MovieEntity | null {
       let updated: MovieEntity | null = null;
@@ -116,6 +121,7 @@ export const MoviesStore = signalStore(
         totalPages: 0,
         totalResults: 0,
         lastVisibleIndex: -1,
+        scrollY: 0,
         latestStoreChange: Date.now(),
       });
     },

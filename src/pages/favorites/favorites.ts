@@ -4,7 +4,6 @@ import { type AfterViewInit, ChangeDetectionStrategy, Component, inject } from "
 import { FavoritesStore } from "@entities/movie/model/favorites-store";
 import { MovieActionsService } from "@features/movies/movie-actions.service";
 import { BackButton } from "@shared/ui/back-button/back-button";
-import { MovieCard } from "@widgets/movie-card/movie-card";
 import { MovieGrid } from "@widgets/movie-grid/movie-grid";
 
 @Component({
