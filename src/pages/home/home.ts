@@ -30,14 +30,7 @@ const COVER_IMG_URL =
 
 @Component({
   selector: "movies-home-page",
-  imports: [
-    CommonModule,
-    MovieGrid,
-    MatProgressSpinnerModule,
-    MatDialogModule,
-    ConfirmDialog,
-    EditMovieDialog,
-  ],
+  imports: [CommonModule, MovieGrid, MatProgressSpinnerModule, MatDialogModule],
   templateUrl: "./home.html",
   styleUrl: "./home.less",
   changeDetection: ChangeDetectionStrategy.OnPush,
