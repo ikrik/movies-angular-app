@@ -4,7 +4,7 @@
     <mat-form-field appearance="fill">
       <mat-label>Title</mat-label>
       <input matInput formControlName="title" />
-      @if (form.controls.title.touched && form.controls.title.hasError("required")) {
+      @if (form.controls.title.touched && form.controls.title.hasError('required')) {
         <mat-error>Title is required</mat-error>
       }
     </mat-form-field>
@@ -12,10 +12,10 @@
     <mat-form-field appearance="fill">
       <mat-label>Year</mat-label>
       <input matInput type="number" min="1880" max="2030" formControlName="year" />
-      @if (form.controls.year.touched && form.controls.year.hasError("required")) {
+      @if (form.controls.year.touched && form.controls.year.hasError('required')) {
         <mat-error>Year is required</mat-error>
       }
-      @if (form.controls.year.touched && form.controls.year.hasError("pattern")) {
+      @if (form.controls.year.touched && form.controls.year.hasError('pattern')) {
         <mat-error>Year must be between 1880 and 2030</mat-error>
       }
     </mat-form-field>
@@ -23,16 +23,14 @@
     <mat-form-field appearance="fill">
       <mat-label>Overview</mat-label>
       <textarea matInput rows="5" formControlName="overview"></textarea>
-      @if (form.controls.overview.touched && form.controls.overview.hasError("required")) {
+      @if (form.controls.overview.touched && form.controls.overview.hasError('required')) {
         <mat-error>Overview is required</mat-error>
       }
     </mat-form-field>
   </div>
 
   <div mat-dialog-actions align="end">
-    <button mat-button mat-dialog-close="null" type="button">Cancel</button>
-    <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">
-      Save
-    </button>
+    <button mat-button [mat-dialog-close]="null" type="button">Cancel</button>
+    <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">Save</button>
   </div>
 </form>
