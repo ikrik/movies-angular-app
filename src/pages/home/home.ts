@@ -192,6 +192,7 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
       .pipe(finalize(() => this.isLoading.set(false)))
       .subscribe({
         next: (response) => {
+          this.saveCurrentScrollPosition();
           const items = response.results.map(mapTmdbMovieToEntity);
           if (append) {
             this.moviesStore.appendResults(
