@@ -52,8 +52,16 @@ export const MoviesStore = signalStore(
       totalPages: number,
       totalResults: number,
     ): void {
+      const byId = new Map<number, MovieEntity>();
+      for (const item of store.items()) {
+        byId.set(item.id, item);
+      }
+      for (const item of items) {
+        byId.set(item.id, item);
+      }
+
       patchState(store, {
-        items: [...store.items(), ...items],
+        items: Array.from(byId.values()),
         page,
         totalPages,
         totalResults,
@@ -117,7 +125,7 @@ export const MoviesStore = signalStore(
     clear(): void {
       patchState(store, {
         items: [],
-        page: 1,
+        page: 0,
         totalPages: 0,
         totalResults: 0,
         lastVisibleIndex: -1,
