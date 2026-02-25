@@ -1,4 +1,4 @@
-import { CommonModule } from "@angular/common";
+import { CommonModule, NgOptimizedImage } from "@angular/common";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { MatToolbarModule } from "@angular/material/toolbar";
 import { RouterLink } from "@angular/router";
@@ -8,7 +8,14 @@ import { MoviesUserMenu } from "./user-menu/user-menu";
 
 @Component({
   selector: "movies-header",
-  imports: [CommonModule, MatToolbarModule, MoviesSearch, MoviesUserMenu, RouterLink],
+  imports: [
+    CommonModule,
+    MatToolbarModule,
+    MoviesSearch,
+    MoviesUserMenu,
+    RouterLink,
+    NgOptimizedImage,
+  ],
   templateUrl: "./movies-header.html",
   styleUrl: "./movies-header.less",
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -21,6 +21,14 @@ $movies-dark-theme: mat.define-theme((
 @include mat.color-variants-backwards-compatibility($movies-dark-theme);
 @include mat.typography-hierarchy($movies-dark-theme);
 
+@font-face {
+  font-family: 'FjallaOne';
+  src: url('/fonts/FjallaOne-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap; /* Απαραίτητο για performance */
+}
+
 body {
   margin: 0;
   font-family: 'Roboto', 'Helvetica Neue', sans-serif;
