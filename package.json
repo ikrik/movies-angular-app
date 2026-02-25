@@ -5,7 +5,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "deploy": "ng deploy -- --base-href=/movies-angular-app/",
+    "deploy": "ng build --base-href=/movies-angular-app/ && npx angular-cli-ghpages --dir=dist/movies-angular-app/browser",
     "watch": "ng build --watch --configuration development",
     "start:prod": "serve -s dist/movies-angular-app/browser",
     "test": "ng test",
