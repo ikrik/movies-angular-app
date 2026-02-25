@@ -21,7 +21,7 @@ describe("ImageWithLoader", () => {
   it("should add is-loaded class when image loads", async () => {
     const fixture = TestBed.createComponent(ImageWithLoader);
     const component = fixture.componentInstance;
-    component.src = "https://example.com/image.jpg";
+    fixture.componentRef.setInput("src", "https://example.com/image.jpg");
     fixture.detectChanges();
 
     await component.onLoad({
@@ -31,13 +31,13 @@ describe("ImageWithLoader", () => {
     } as unknown as Event);
 
     await fixture.whenStable();
-    expect(component.loaded).toBe(true);
+    expect(component.loaded()).toBe(true);
   });
 
   it("should set failed class on error", () => {
     const fixture = TestBed.createComponent(ImageWithLoader);
     const component = fixture.componentInstance;
-    component.src = "https://example.com/image.jpg";
+    fixture.componentRef.setInput("src", "https://example.com/image.jpg");
     fixture.detectChanges();
 
     component.onError();

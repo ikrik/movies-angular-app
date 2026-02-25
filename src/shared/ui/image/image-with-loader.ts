@@ -1,10 +1,10 @@
 import { CommonModule } from "@angular/common";
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
-  Input,
-  inject,
+  computed,
+  input,
+  signal,
 } from "@angular/core";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 
@@ -16,21 +16,17 @@ import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ImageWithLoader {
-  private readonly cdr = inject(ChangeDetectorRef);
-  @Input({ required: true }) src!: string | null;
-  @Input() placeholderSrc: string | null = null;
-  @Input() alt = "";
-  @Input() placeholder = "https://placehold.co/600x900?text=No+Image";
-  @Input() fit: "cover" | "contain" = "cover";
-  @Input() showSpinner = false;
-  @Input() aspectRatio = "2 / 3";
+  readonly src = input<string | null>(null);
+  readonly placeholderSrc = input<string | null>(null);
+  readonly alt = input("");
+  readonly placeholder = input("https://placehold.co/600x900?text=No+Image");
+  readonly fit = input<"cover" | "contain">("cover");
+  readonly showSpinner = input(false);
+  readonly aspectRatio = input("2 / 3");
 
-  loaded = false;
-  failed = false;
-
-  get resolvedSrc(): string {
-    return this.src || this.placeholder;
-  }
+  readonly loaded = signal(false);
+  readonly failed = signal(false);
+  readonly resolvedSrc = computed(() => this.src() || this.placeholder());
 
   async onLoad(ev: Event): Promise<void> {
     const img = ev.target as HTMLImageElement;
@@ -44,14 +40,12 @@ export class ImageWithLoader {
       }
     }
     requestAnimationFrame(() => {
-      this.loaded = true;
-      this.cdr.markForCheck();
+      this.loaded.set(true);
     });
   }
 
   onError(): void {
-    this.failed = true;
-    this.loaded = true;
-    this.cdr.markForCheck();
+    this.failed.set(true);
+    this.loaded.set(true);
   }
 }

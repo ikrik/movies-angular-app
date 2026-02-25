@@ -1,27 +1,27 @@
-<div class="image-wrap" [style.aspect-ratio]="aspectRatio">
-  @if (placeholderSrc) {
+<div class="image-wrap" [style.aspect-ratio]="aspectRatio()">
+  @if (placeholderSrc()) {
     <img
       class="img img--placeholder"
-      [src]="placeholderSrc"
-      [alt]="alt"
-      [style.object-fit]="fit"
+      [src]="placeholderSrc()"
+      [alt]="alt()"
+      [style.object-fit]="fit()"
       aria-hidden="true"
     />
   }
   <img
     class="img img--full"
-    [class.is-loaded]="loaded"
-    [class.image-wrap-img-failed]="failed"
-    [style.object-fit]="fit"
-    [src]="resolvedSrc"
-    [alt]="alt"
+    [class.is-loaded]="loaded()"
+    [class.image-wrap-img-failed]="failed()"
+    [style.object-fit]="fit()"
+    [src]="resolvedSrc()"
+    [alt]="alt()"
     loading="lazy"
     decoding="async"
     (load)="onLoad($event)"
     (error)="onError()"
   />
 
-  @if (!loaded && showSpinner && !placeholderSrc) {
+  @if (!loaded() && showSpinner() && !placeholderSrc()) {
     <div class="overlay">
       <mat-progress-spinner mode="indeterminate" diameter="36"></mat-progress-spinner>
     </div>
