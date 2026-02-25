@@ -4,7 +4,6 @@ import { FavoritesStore } from "@entities/movie/model/favorites-store";
 import { MoviesStore } from "@entities/movie/model/movies-store";
 import { TmdbService } from "@shared/api/tmdb.service";
 import { SnackBarService } from "@shared/ui/snackbar/snackbar.service";
-import { catchError, of } from "rxjs";
 
 @Injectable({ providedIn: "root" })
 export class MovieActionsService {
@@ -15,20 +14,18 @@ export class MovieActionsService {
   private readonly snackbar = inject(SnackBarService);
 
   goToDetails(movieId: number): void {
-    this.tmdbService
-      .getMovieDetails(movieId)
-      .pipe(
-        catchError(() => {
-          void this.router.navigate(["/not-movie-found"]);
-          return of(null);
-        }),
-      )
-      .subscribe((movie) => {
+    this.tmdbService.getMovieDetails(movieId).subscribe({
+      next: (movie) => {
         if (!movie) {
+          void this.router.navigate(["/not-movie-found"]);
           return;
         }
         void this.router.navigate(["/movie", movieId]);
-      });
+      },
+      error: () => {
+        void this.router.navigate(["/not-movie-found"]);
+      },
+    });
   }
 
   toggleFavorite(movieId: number): void {
