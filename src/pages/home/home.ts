@@ -3,15 +3,13 @@ import {
   type AfterViewInit,
   ChangeDetectionStrategy,
   Component,
-  DestroyRef,
-  ElementRef,
+  type ElementRef,
   type OnDestroy,
   type OnInit,
   ViewChild,
   inject,
   signal,
 } from "@angular/core";
-import { takeUntilDestroyed, toObservable } from "@angular/core/rxjs-interop";
 import { SnackBarService } from "@shared/ui/snackbar/snackbar.service";
 
 import { MatDialog, MatDialogModule } from "@angular/material/dialog";
@@ -39,34 +37,22 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
   private readonly moviesStore = inject(MoviesStore);
   private readonly tmdbService = inject(TmdbService);
   private readonly snackbar = inject(SnackBarService);
-  private readonly destroyRef = inject(DestroyRef);
   protected readonly coverImg = signal(COVER_IMG_URL);
   protected readonly isLoading = signal(false);
   private readonly movieActions = inject(MovieActionsService);
   private readonly dialog = inject(MatDialog);
-  private readonly items$ = toObservable(this.moviesStore.items);
   private observer?: IntersectionObserver;
-  private gridObserver?: IntersectionObserver;
-  private preventJump = false;
 
   @ViewChild("infiniteTrigger", { static: false })
   private readonly infiniteTrigger?: ElementRef<HTMLDivElement>;
 
-  @ViewChild(MovieGrid, { read: ElementRef })
-  private readonly movieGridHost?: ElementRef<HTMLElement>;
-
   readonly movies = this.moviesStore.items;
 
-  handleCardClick({ movieId, idx }: { movieId: number; idx: number }): void {
-    if (typeof idx === "number") {
-      this.moviesStore.setLastVisibleIndex(idx);
-      this.saveCurrentScrollPosition();
-    }
+  handleCardClick({ movieId }: { movieId: number }): void {
     this.movieActions.goToDetails(movieId);
   }
 
   handleFavoriteToggle(movieId: number): void {
-    this.preventJump = true;
     this.movieActions.toggleFavorite(movieId);
   }
 
@@ -102,7 +88,6 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
         cancelText: "Cancel",
       },
     });
-    this.saveCurrentScrollPosition();
     dialogRef.afterClosed().subscribe((confirmed: boolean) => {
       if (confirmed) {
         this.moviesStore.removeMovie(movieId);
@@ -142,34 +127,10 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
     );
 
     this.observer.observe(this.infiniteTrigger.nativeElement);
-
-    // Intersection Observer for scroller to keep track the position where
-    // the movie card was clicked, in order to return back
-    this.gridObserver = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.intersectionRatio < 1) {
-            continue;
-          }
-
-          const indexAttr = (entry.target as HTMLElement).getAttribute("data-movie-index");
-          const index = indexAttr ? Number(indexAttr) : Number.NaN;
-          if (!Number.isNaN(index)) {
-            this.moviesStore.setLastVisibleIndex(index);
-            this.saveCurrentScrollPosition();
-          }
-        }
-      },
-      { root: null, threshold: 1 },
-    );
-
-    this.observeGridItems();
-    this.items$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => this.observeGridItems());
   }
 
   ngOnDestroy(): void {
     this.observer?.disconnect();
-    this.gridObserver?.disconnect();
   }
 
   private loadNextPage(): void {
@@ -192,7 +153,6 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
       .pipe(finalize(() => this.isLoading.set(false)))
       .subscribe({
         next: (response) => {
-          this.saveCurrentScrollPosition();
           const items = response.results.map(mapTmdbMovieToEntity);
           if (append) {
             this.moviesStore.appendResults(
@@ -210,53 +170,5 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
           this.snackbar.open(err?.error?.status_message, "error", 6000);
         },
       });
-  }
-
-  private observeGridItems(): void {
-    if (!this.gridObserver || !this.movieGridHost) {
-      return;
-    }
-
-    this.gridObserver.disconnect();
-    const items =
-      this.movieGridHost.nativeElement.querySelectorAll<HTMLElement>("[data-movie-index]");
-
-    for (const item of items) {
-      this.gridObserver?.observe(item);
-    }
-
-    this.restoreToLastVisibleItem(items);
-  }
-
-  private restoreToLastVisibleItem(items: NodeListOf<HTMLElement>): void {
-    const index = this.moviesStore.lastVisibleIndex();
-    const savedScrollY = this.moviesStore.scrollY();
-    if (index < 0 || items.length === 0) {
-      return;
-    }
-
-    const item = items[index];
-    if (!item) {
-      return;
-    }
-
-    if (this.preventJump) {
-      this.preventJump = false;
-      return;
-    }
-
-    setTimeout(() => {
-      if (savedScrollY > 0) {
-        const content = document.querySelector<HTMLElement>(".content");
-        content?.scrollTo({ top: savedScrollY, behavior: "auto" });
-        return;
-      }
-      item.scrollIntoView({ block: "center", behavior: "auto" });
-    }, 0);
-  }
-
-  private saveCurrentScrollPosition() {
-    const content = document.querySelector<HTMLElement>(".content");
-    this.moviesStore.setScrollY(content?.scrollTop || 0);
   }
 }
